@@ -39,4 +39,96 @@ temp_data_long <- temp_data_wide %>%
 ```
 
 
+### Palmer penguins example
+
+```{r}
+# Initial analysis
+View(penguins)
+# give us information about dataset
+str(penguins)
+```
+### Plot 1
+```{r}
+# na.omit to omit NA values
+# Mapping color globally
+ggplot(na.omit(penguins), 
+       mapping = aes(x = bill_length_mm,
+                     y = bill_depth_mm,
+                     color = species)) +
+  geom_point() +
+  # linear model line: we get one for each species
+  geom_smooth(method = "lm")
+
+
+# Mapping color locally
+ggplot(na.omit(penguins), 
+       mapping = aes(x = bill_length_mm,
+                     y = bill_depth_mm)) +
+  geom_point(aes(color = species)) +
+  # best fit line across all the datasets
+  geom_smooth(method = "lm") + 
+  scale_color_manual(values = c("darkorange","purple","cyan4"))
+
+# piping into a
+# penguins %>%
+# ggplot(aes(x = bill_length_mm,
+#                   y = bill_depth_mm))
+
+
+
+ggplot(na.omit(penguins), aes(x = body_mass_g,
+                     y = flipper_length_mm,
+                     color = body_mass_g)) +
+  geom_point() +
+  scale_color_gradient(low = "#123488", high = "#F7DD4C")
+```
+### Plot 2
+
+```{r}
+ggplot(penguins, aes(x = species)) +
+  geom_bar() 
+
+penguins_summary <- penguins %>% 
+  count(species)
+
+ggplot(penguins_summary, aes(x = species, y = n)) +
+  geom_bar(stat = "identity")
+
+# geom_col is what you would rather do
+# geom_bar overide a function rcrcrdcrcdrdrdrcdrdcrcdrcd
+
+
+```
+
+override stat mapping
+```{r}
+# represeted as a proportion
+ggplot(penguins, aes(x = species, y = after_stat(prop), 
+                     group = 1)) +
+  geom_bar() 
+
+
+
+```
+position adjustments
+```{r}
+# here we use fill bc its a big area
+# color is for when it is a small point or line
+ggplot(penguins,aes(x = species, fill = island)) +
+  geom_bar(position = position_dodge2(preserve = "single")) 
+```
+```{r}
+## coord system
+# change how the axis is arranged
+ggplot(penguins, aes(x=species)) +
+  geom_bar() +
+  coord_flip() +
+  theme_classic() +
+  theme(axis.title = element_text(size = 17, color = "purple")) # use to update everything
+
+ggplot(penguins, aes(x=species)) +
+  geom_bar() +
+  coord_polar()
+
+```
 
