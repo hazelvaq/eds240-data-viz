@@ -6,7 +6,6 @@ date: 2024-01-08
 
 ## ggplot review
 
-
 ### Load packages
 ```{r}
 library(tidyverse)
